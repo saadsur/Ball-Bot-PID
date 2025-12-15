@@ -2,9 +2,7 @@ import React from 'react';
 import { useSimulation } from './hooks/useSimulation';
 import SimulationCanvas from './components/SimulationCanvas';
 import ControlPanel from './components/ControlPanel';
-import Charts from './components/Charts';
-import IMUDisplay from './components/IMUDisplay';
-import { Bot, Info } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 const App: React.FC = () => {
   const { 
@@ -13,7 +11,6 @@ const App: React.FC = () => {
     setPidParams, 
     settings, 
     setSettings, 
-    chartData, 
     addImpulse, 
     reset,
     autoTune
@@ -46,34 +43,24 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-3 md:p-6 overflow-x-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Grid Layout: 
+            Mobile: 1 column (Sim -> Controls)
+            Desktop: 12 columns. Sim(8) | Controls(4)
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
           
-          {/* Left Column: Simulation & IMU */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
-            
-            {/* Simulation Viewport - Dynamic Height for Mobile */}
-            <div className="h-[45vh] min-h-[350px] lg:h-[600px] relative">
-               <SimulationCanvas 
-                  simulationState={state} 
-                  turbulence={settings.turbulence}
-                  robotMass={settings.robotMass}
-                  onApplyForce={handleApplyForce} 
-               />
-            </div>
-
-            {/* Sensor Dashboard */}
-            <div className="shrink-0">
-               <IMUDisplay state={state} />
-            </div>
-
-             {/* Charts Area - Hidden on very small screens if needed, or scrollable */}
-            <div className="h-64 shrink-0 hidden sm:block">
-               <Charts data={chartData} />
-            </div>
+          {/* 1. Simulation */}
+          <div className="lg:col-span-8 h-[50vh] min-h-[400px] lg:h-[600px] relative">
+             <SimulationCanvas 
+                simulationState={state} 
+                turbulence={settings.turbulence}
+                robotMass={settings.robotMass}
+                onApplyForce={handleApplyForce} 
+             />
           </div>
 
-          {/* Right Column: Controls */}
-          <div className="lg:col-span-4 pb-8">
+          {/* 2. Controls */}
+          <div className="lg:col-span-4 flex flex-col h-full lg:h-[600px]">
             <ControlPanel 
               pidParams={pidParams} 
               setPidParams={setPidParams}
@@ -83,8 +70,11 @@ const App: React.FC = () => {
               onReset={reset}
               onAutoTune={autoTune}
             />
-            
-            {/* Educational Info Snippet */}
-            <div className="mt-4 bg-blue-50 border border-blue-100 p-4 rounded-xl text-sm text-blue-900 leading-relaxed">
-              <h4 className="font-bold flex items-center gap-2 mb-2">
-                <Info size
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default App;

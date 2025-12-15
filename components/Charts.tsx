@@ -27,53 +27,10 @@ const Charts: React.FC<ChartsProps> = ({ data }) => {
   const displayData = data.slice(-100);
 
   return (
-    <div className="space-y-4 h-full flex flex-col">
-      
-      {/* Chart 1: System Response (Angle vs Setpoint) */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex-1 min-h-[200px] flex flex-col">
-        <h3 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-          System Response (Angle)
-        </h3>
-        <div className="flex-1 w-full h-full min-h-0">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={displayData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-              <XAxis 
-                dataKey="time" 
-                hide={true} 
-                type="number" 
-                domain={['dataMin', 'dataMax']}
-              />
-              <YAxis 
-                domain={[-20, 20]} 
-                tick={{fontSize: 10, fill: '#64748b'}} 
-                axisLine={false}
-                tickLine={false}
-                unit="°"
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="3 3" />
-              <Line 
-                type="monotone" 
-                dataKey="angle" 
-                stroke="#3b82f6" 
-                strokeWidth={2} 
-                dot={false} 
-                isAnimationActive={false} 
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Chart 2: PID & Motor Lag */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex-1 min-h-[200px] flex flex-col">
-        <h3 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-           <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-           Control & Motor Output (Newtons)
-        </h3>
-        <div className="flex-1 w-full h-full min-h-0">
+    <div className="w-full h-full bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+        {/* Chart Container */}
+        {/* flex-1 min-h-0 is crucial for nested flex charts to work properly */}
+        <div className="flex-1 w-full min-h-0 p-2 relative">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={displayData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
@@ -87,18 +44,16 @@ const Charts: React.FC<ChartsProps> = ({ data }) => {
                 tick={{fontSize: 10, fill: '#64748b'}} 
                 axisLine={false}
                 tickLine={false}
+                width={30}
               />
               <Tooltip content={<CustomTooltip />} />
               <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="3 3" />
               <Legend verticalAlign="top" height={36} iconSize={8} wrapperStyle={{ fontSize: '10px' }}/>
               <Line name="PID Target" type="monotone" dataKey="output" stroke="#94a3b8" strokeWidth={1} strokeDasharray="5 5" dot={false} isAnimationActive={false} />
               <Line name="Actual Motor" type="monotone" dataKey="effective" stroke="#f59e0b" strokeWidth={2} dot={false} isAnimationActive={false} />
-              <Line name="P" type="monotone" dataKey="p" stroke="#cbd5e1" strokeWidth={1} dot={false} isAnimationActive={false} hide={true} />
-              <Line name="D" type="monotone" dataKey="d" stroke="#cbd5e1" strokeWidth={1} dot={false} isAnimationActive={false} hide={true} />
             </LineChart>
           </ResponsiveContainer>
         </div>
-      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PIDParams, SimulationSettings } from '../types';
-import { Sliders, RefreshCw, Wind, Activity, Zap, Waves, Weight, Sparkles } from 'lucide-react';
+import { Sliders, RefreshCw, Wind, Activity, Zap, Waves, Weight, Sparkles, Info } from 'lucide-react';
 import { PHYSICS_CONSTANTS } from '../constants';
 
 interface ControlPanelProps {
@@ -191,6 +191,17 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ pidParams, setPidParams, se
           <RefreshCw size={16} />
           Reset Simulation
         </button>
+      </div>
+      
+      {/* Educational Info Snippet */}
+      <div className="mt-6 bg-blue-50 border border-blue-100 p-3 rounded-lg text-xs text-blue-900 leading-relaxed">
+        <h4 className="font-bold flex items-center gap-1 mb-1 text-blue-800">
+        <Info size={14} />
+        How it balances
+        </h4>
+        <p className="opacity-80">
+        The robot senses tilt and drives the wheel in the direction of the fall to push the bottom back under the center of mass.
+        </p>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SimulationState } from '../types';
-import { Activity, Compass, Zap } from 'lucide-react';
+import { Compass } from 'lucide-react';
 
 interface IMUDisplayProps {
   state: SimulationState;
@@ -24,31 +24,15 @@ const SensorCard: React.FC<{ title: string; value: string; unit: string; icon: R
 
 const IMUDisplay: React.FC<IMUDisplayProps> = ({ state }) => {
   const angleDeg = (state.angle * 180 / Math.PI).toFixed(1);
-  const angularVelDeg = (state.angularVelocity * 180 / Math.PI).toFixed(1);
-  const motorOut = state.controlOutput.toFixed(1);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-1 gap-4 mb-6">
         <SensorCard 
             title="Tilt Angle" 
             value={angleDeg} 
             unit="°" 
             icon={<Compass size={18} />}
             color="text-cyan-400"
-        />
-        <SensorCard 
-            title="Angular Vel" 
-            value={angularVelDeg} 
-            unit="°/s" 
-            icon={<Activity size={18} />}
-            color="text-violet-400"
-        />
-        <SensorCard 
-            title="Motor Torque" 
-            value={motorOut} 
-            unit="Nm" 
-            icon={<Zap size={18} />}
-            color="text-yellow-400"
         />
     </div>
   );
