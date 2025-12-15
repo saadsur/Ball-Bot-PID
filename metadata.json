@@ -1,0 +1,5 @@
+{
+  "name": "BallBot PID Simulator",
+  "description": "An interactive simulation of a robot balancing on a ball using a PID controller. Visualize real-time physics, IMU sensor data, and PID component contributions while testing stability with external disturbances.",
+  "requestFramePermissions": []
+}
